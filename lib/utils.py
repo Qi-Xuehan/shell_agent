@@ -1,37 +1,38 @@
 import os
+import time
 import json
-from datetime import datetime
 
-HISTORY_FILE = "../history/history.txt"
-LOG_FILE = "../logs/agent.log"
-TEMPLATE_FILE = "../config/templates.json"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LOG_DIR = os.path.join(BASE_DIR, "logs")
+HISTORY_DIR = os.path.join(BASE_DIR, "history")
 
-# 日志
-def save_log(msg: str):
-    os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
+# 初始化目录
+os.makedirs(LOG_DIR, exist_ok=True)
+os.makedirs(HISTORY_DIR, exist_ok=True)
+
+LOG_FILE = os.path.join(LOG_DIR, "agent.log")
+HISTORY_FILE = os.path.join(HISTORY_DIR, "cmd_history.txt")
+
+def log_info(msg):
+    t = time.strftime("%Y-%m-%d %H:%M:%S")
+    line = f"[{t}] [INFO] {msg}\n"
     with open(LOG_FILE, "a", encoding="utf-8") as f:
-        f.write(f"{datetime.now()} | {msg}\n")
+        f.write(line)
+    print(line.strip())
 
-# 历史
-def save_history(cmd: str):
-    os.makedirs(os.path.dirname(HISTORY_FILE), exist_ok=True)
+def save_history(question, cmd):
+    t = time.strftime("%Y-%m-%d %H:%M:%S")
+    line = f"时间:{t} | 需求:{question} | 命令:{cmd}\n"
     with open(HISTORY_FILE, "a", encoding="utf-8") as f:
-        f.write(f"{datetime.now()} | {cmd}\n")
+        f.write(line)
 
-# 模板管理
-def load_templates() -> dict:
-    if not os.path.exists(TEMPLATE_FILE):
-        return {}
-    with open(TEMPLATE_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
+def show_history():
+    if not os.path.exists(HISTORY_FILE):
+        print("暂无历史记录")
+        return
+    with open(HISTORY_FILE, "r", encoding="utf-8") as f:
+        print(f.read())
 
-def add_template(name: str, cmd: str):
-    templates = load_templates()
-    templates[name] = cmd
-    with open(TEMPLATE_FILE, "w", encoding="utf-8") as f:
-        json.dump(templates, f, indent=4, ensure_ascii=False)
-
-def list_templates():
-    templates = load_templates()
-    for i, (name, cmd) in enumerate(templates.items(), 1):
-        print(f"{i}. {name} → {cmd}")
+def clear_history():
+    open(HISTORY_FILE, "w", encoding="utf-8").close()
+    print("历史记录已清空")

@@ -1,40 +1,48 @@
-# !/usr/bin/env python3
-# llm_agent.py - 使用 OpenAI SDK 调用 DeepSeek
-
+import json
 import os
-from openai import OpenAI
 
-# 初始化客户端
-client = OpenAI(
-    api_key=os.environ.get("sk-041f83e0510c458e9013210aed8a399c"),  # 环境变量存储 API Key
-    base_url="https://api.deepseek.com"
-)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TEMPLATE_PATH = os.path.join(BASE_DIR, "config", "templates.json")
 
+# 加载模板
+with open(TEMPLATE_PATH, "r", encoding="utf-8") as f:
+    TEMPLATES = json.load(f)
 
-def generate_shell_command(nl_text: str) -> str:
-    """
-    使用 DeepSeek 将中文自然语言解析为 Bash 命令
-    """
-    messages = [
-        {"role": "system", "content": "你是一个Linux运维专家，输出安全标准的Bash命令"},
-        {"role": "user", "content": nl_text},
-    ]
+def nl2bash(user_input):
+    """中文自然语言 -> 匹配Shell命令+解释"""
+    user_input = user_input.lower()
+    matched = []
 
-    response = client.chat.completions.create(
-        model="deepseek-v4-pro",
-        messages=messages,
-        stream=False,
-        reasoning_effort="high",
-        extra_body={"thinking": {"type": "enabled"}}
-    )
+    # 关键词映射
+    keyword_map = {
+        "文件": "文件管理",
+        "磁盘|占用|空间": "磁盘监控",
+        "进程|杀进程|pid": "进程管理",
+        "日志|错误|查看日志": "日志分析",
+        "权限|chmod|chown": "权限管理",
+        "网络|ping|网卡": "网络命令"
+    }
 
-    # 返回生成的命令文本
-    return response.choices[0].message.content.strip()
+    # 匹配分类
+    cat = None
+    for kwds, c in keyword_map.items():
+        for k in kwds.split("|"):
+            if k in user_input:
+                cat = c
+                break
+        if cat:
+            break
 
+    if not cat:
+        return None, "未匹配到常用运维场景，请换描述：文件/磁盘/进程/日志/权限/网络"
 
-if __name__ == "__main__":
-    import sys
+    # 返回该分类下所有命令
+    return TEMPLATES[cat], f"已匹配【{cat}】分类命令"
 
-    text = sys.argv[1] if len(sys.argv) > 1 else ""
-    cmd = generate_shell_command(text)
-    print(cmd)
+def explain_cmd(cmd_desc, cmd):
+    """命令解释"""
+    return f"""
+功能描述：{cmd_desc}
+执行命令：{cmd}
+使用说明：直接在终端复制执行即可，注意目录和权限
+"""

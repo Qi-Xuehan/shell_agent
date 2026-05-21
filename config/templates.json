@@ -1,6 +1,29 @@
 {
-    "查看当前目录": "ls -la",
-    "查看磁盘空间": "df -h",
-    "查看当前用户": "whoami",
-    "查看系统进程": "ps aux"
+  "文件管理": [
+    {"desc": "查看当前目录文件", "cmd": "ls -lh"},
+    {"desc": "创建多级目录", "cmd": "mkdir -p dir1/dir2"},
+    {"desc": "批量删除后缀为log文件", "cmd": "rm -f *.log"},
+    {"desc": "复制目录及所有文件", "cmd": "cp -r src/ dest/"}
+  ],
+  "磁盘监控": [
+    {"desc": "查看磁盘整体占用", "cmd": "df -h"},
+    {"desc": "查看目录大小", "cmd": "du -sh *"}
+  ],
+  "进程管理": [
+    {"desc": "查看所有进程", "cmd": "ps aux"},
+    {"desc": "按名称查找进程", "cmd": "ps aux | grep 进程名"},
+    {"desc": "强制杀死进程", "cmd": "kill -9 进程PID"}
+  ],
+  "日志分析": [
+    {"desc": "实时查看日志", "cmd": "tail -f /var/log/syslog"},
+    {"desc": "过滤错误日志", "cmd": "grep -i error /var/log/syslog"}
+  ],
+  "权限管理": [
+    {"desc": "赋予文件执行权限", "cmd": "chmod +x script.sh"},
+    {"desc": "修改目录所有者", "cmd": "chown user:group 目录名"}
+  ],
+  "网络命令": [
+    {"desc": "查看网卡信息", "cmd": "ip a"},
+    {"desc": "测试网络连通", "cmd": "ping -c 4 baidu.com"}
+  ]
 }
