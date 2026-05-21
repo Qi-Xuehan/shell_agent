@@ -1,6 +1,12 @@
 import sys
+import os
+
+# 把项目根目录加入 Python 路径
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, BASE_DIR)
+
 from lib.utils import log_info, save_history, show_history, clear_history
-from lib.llm_agent import nl2bash, explain_cmd
+from lib.llm_agent import nl2bash
 from lib.syntax_checker import check_bash_syntax
 
 def main():
