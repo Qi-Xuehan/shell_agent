@@ -102,33 +102,7 @@ python3 main.py
 ---
 
 # 五、使用示例
-```
-请输入指令 > 查看当前目录文件
-正在调用DeepSeek V4 Pro生成命令...
-生成命令：ls -lh
-是否执行？(y/n) y
 
-✅ 执行结果：
-total 24K
-drwxr-xr-x 2 user user 4.0K May 28 10:00 config
-drwxr-xr-x 2 user user 4.0K May 28 10:00 lib
-...
-```
-
-```
-请输入指令 > 查看历史记录
-（显示历史命令）
-```
-
-```
-请输入指令 > 清空历史
-已清空！
-```
-
-```
-请输入指令 > 退出
-👋 再见！
-```
 
 ---
 
@@ -137,7 +111,3 @@ drwxr-xr-x 2 user user 4.0K May 28 10:00 lib
 deactivate
 ```
 
----
-
-## 需要我帮你把这份 README 导出成 `README.md` 文件吗？
-我可以直接给你**可复制保存的完整 md 格式**，放到项目根目录即可使用。
