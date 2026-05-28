@@ -36,7 +36,7 @@ class ShellAgent:
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": query}
         ]
-        print("正在调用DeepSeek生成命令...")
+        print("正在调用DeepSeek V4 Pro生成命令...")
         response = self.llm.chat(messages)
         cmd = extract_shell_command(response)
 
@@ -70,12 +70,19 @@ class ShellAgent:
             {"role": "user", "content": f"请诊断：{query}"}
         ]
 
-        llm_response = self.llm.chat(messages)
+        try:
+            llm_response = self.llm.chat(messages)
+        except Exception as e:
+          print(f"诊断失败：调用大模型出错 - {e}")
+          print("使用备用诊断方案...")
+          self.fallback_diagnose(query)
+          return
 
         # 2. 解析大模型返回的 JSON 格式命令
         diagnose_data = extract_json_from_llm(llm_response)
         if not diagnose_data:
             print("诊断失败：格式错误")
+            print("使用备用诊断方案...")
             return
 
         title = diagnose_data.get("title", "系统诊断")
@@ -94,3 +101,15 @@ class ShellAgent:
         print(f"【{title}】")
         print(analysis)
         print("=" * 60)
+
+# 备用诊断方案
+    def fallback_diagnose(self, query):
+        if "磁盘" in query or "空间" in query:
+           print("\n===== 备用磁盘诊断 =====")
+           print("→ 执行：df -h")
+           print(execute_shell_command("df -h")["stdout"])
+           print("\n→ 执行：du -sh /* 2>/dev/null | sort -rh | head -5")
+           print(execute_shell_command("du -sh /* 2>/dev/null | sort -rh | head -5")["stdout"])
+           print("===== 诊断完成 =====")
+        else:
+            print("暂时无法自动诊断，请直接输入具体命令生成需求")

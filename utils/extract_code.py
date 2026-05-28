@@ -1,14 +1,23 @@
 import re
+import json
 
 def extract_shell_command(text):
-    """从大模型返回文本中提取Shell命令"""
     pattern = r"```bash\n(.*?)\n```"
     match = re.search(pattern, text, re.DOTALL)
+    return match.group(1).strip() if match else None
+
+def extract_json_from_llm(text):
+    # 直接解析 JSON
+    try:
+        return json.loads(text.strip())
+    except:
+        pass
+    # 从文本中提取 JSON 片段
+    pattern = r"\{.*\}"
+    match = re.search(pattern, text, re.DOTALL)
     if match:
-        return match.group(1).strip()
-    # 备用匹配：直接提取单行命令
-    pattern2 = r"命令：(.*?)(\n|$)"
-    match2 = re.search(pattern2, text)
-    if match2:
-        return match2.group(1).strip()
+        try:
+            return json.loads(match.group(0))
+        except:
+            return None
     return None
