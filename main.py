@@ -1,11 +1,11 @@
 from shell_agent import ShellAgent
 
 def main():
-    print("=============================================")
-    print("        Shell Agent - 大模型命令助手        ")
-    print("=============================================")
+    print("="*60)
+    print("        Shell Agent - Shell编程助手        ")
+    print("="*60)
     print("支持：自然语言生成命令 / 查看历史 / 清空历史 / 退出")
-    print("=============================================")
+    print("="*60)
 
     agent = ShellAgent()
     while True:

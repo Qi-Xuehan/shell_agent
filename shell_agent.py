@@ -12,22 +12,23 @@ class ShellAgent:
 
     def handle_query(self, query):
         query = query.strip().lower()
-        # 意图识别：历史/清空/退出
-        if any(k in query for k in ["历史", "查看历史"]):
+        # 纯自然语言意图识别（无数字菜单）
+        if any(k in query for k in ["历史", "查看历史", "命令历史"]):
             show_history()
             return
-        if any(k in query for k in ["清空历史", "清除记录"]):
+        if any(k in query for k in ["清空历史", "清除记录", "删除历史"]):
             clear_history()
             return
-        if any(k in query for k in ["退出", "quit", "exit"]):
-            print("再见！")
+        if any(k in query for k in ["退出", "quit", "exit", "再见"]):
+            print("👋 再见！")
             exit(0)
 
-        # 调用大模型生成命令
+        # 调用DeepSeek V4 Pro生成命令
         messages = [
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": query}
         ]
+        print("🤖 正在调用DeepSeek V4 Pro生成命令...")
         response = self.llm.chat(messages)
         cmd = extract_shell_command(response)
 
