@@ -20,7 +20,7 @@ class ShellAgent:
             clear_history()
             return
         if any(k in query for k in ["退出", "quit", "exit", "再见"]):
-            print("👋 再见！")
+            print("再见！")
             exit(0)
 
         # 调用DeepSeek V4 Pro生成命令
@@ -28,15 +28,15 @@ class ShellAgent:
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": query}
         ]
-        print("🤖 正在调用DeepSeek V4 Pro生成命令...")
+        print("正在调用DeepSeek V4 Pro生成命令...")
         response = self.llm.chat(messages)
         cmd = extract_shell_command(response)
 
         if not cmd:
-            print("❌ 未能解析到有效命令，请重新描述需求")
+            print("未能解析到有效命令，请重新描述需求")
             return
 
-        print(f"\n📌 生成命令：{cmd}")
+        print(f"\n生成命令：{cmd}")
         confirm = input("是否执行？(y/n) ").lower()
         if confirm != "y":
             print("已取消执行")
@@ -45,10 +45,10 @@ class ShellAgent:
         # 执行命令
         result = execute_shell_command(cmd)
         if result["success"]:
-            print("\n✅ 执行结果：")
+            print("\n执行结果：")
             print(result["stdout"])
             save_history(query, cmd)
             log_info(f"执行成功：{cmd}")
         else:
-            print(f"\n❌ 执行失败：{result.get('stderr', result.get('error'))}")
+            print(f"\n执行失败：{result.get('stderr', result.get('error'))}")
             log_info(f"执行失败：{cmd}")
