@@ -13,15 +13,15 @@ class ShellAgent:
     def handle_query(self, query):
         query = query.strip().lower()
         # 纯自然语言意图识别（无数字菜单）
-        if any(k in query for k in ["历史", "查看历史", "命令历史"]):
-            show_history()
-            return
-        if any(k in query for k in ["清空历史", "清除记录", "删除历史"]):
-            clear_history()
-            return
         if any(k in query for k in ["退出", "quit", "exit", "再见"]):
             print("再见！")
             exit(0)
+        elif any(k in query for k in ["清空历史", "清除记录", "删除历史"]):
+            clear_history()
+            return
+        elif any(k in query for k in ["历史", "查看历史", "命令历史"]):
+            show_history()
+            return
 
         # 调用DeepSeek V4 Pro生成命令
         messages = [
