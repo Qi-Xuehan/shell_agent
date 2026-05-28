@@ -1,0 +1,39 @@
+用户输入：查看磁盘空间
+调用大模型生成命令...
+生成命令：df -h
+执行成功，结果：
+Filesystem      Size  Used Avail Use% Mounted on
+none            3.9G     0  3.9G   0% /usr/lib/modules/6.6.87.2-microsoft-standard-WSL2
+none            3.9G  4.0K  3.9G   1% /mnt/wsl
+drivers         238G  144G   95G  61% /usr/lib/wsl/drivers
+/dev/sdd       1007G  2.7G  953G   1% /
+none            3.9G   80K  3.9G   1% /mnt/wslg
+none            3.9G     0  3.9G   0% /usr/lib/wsl/lib
+rootfs          3.9G  2.7M  3.9G   1% /init
+none            3.9G  508K  3.9G   1% /run
+none            3.9G     0  3.9G   0% /run/lock
+none            3.9G     0  3.9G   0% /run/shm
+none            3.9G   76K  3.9G   1% /mnt/wslg/versions.txt
+none            3.9G   76K  3.9G   1% /mnt/wslg/doc
+C:\             238G  144G   95G  61% /mnt/c
+D:\             238G   73G  166G  31% /mnt/d
+tmpfs           784M   20K  783M   1% /run/user/1000
+用户输入：查看目录列表
+调用大模型生成命令...
+生成命令：ls
+执行成功，结果：
+README.md
+__pycache__
+config
+history
+images
+lib
+logs
+main.py
+outputs
+prompts.py
+requirements.txt
+shell_agent.py
+utils
+venv
+用户输入：退出

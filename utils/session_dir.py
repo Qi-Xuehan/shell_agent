@@ -3,7 +3,7 @@ import uuid
 from datetime import datetime
 
 def create_session_dir():
-    """创建独立会话目录并返回路径"""
+    """创建独立会话目录、返回路径"""
     base_dir = "outputs"
     session_id = str(uuid.uuid4())[:8]
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
