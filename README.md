@@ -2,7 +2,7 @@
 
 ---
 
-# 一、项目介绍
+## 一、项目介绍
 
 Shell Agent 是一款**基于 DeepSeek 大模型**的 Linux 智能命令助手，支持用户通过**纯自然语言对话**实现命令生成、语法校验、安全执行、历史管理、全自动系统诊断等一体化能力。
 无需记忆复杂的 Linux 指令，输入中文即可完成：命令生成 → 语法检查 → 执行 → 分析 → 日志记录 → 诊断报告。
@@ -11,7 +11,7 @@ Shell Agent 是一款**基于 DeepSeek 大模型**的 Linux 智能命令助手�
 
 ---
 
-# 二、项目结构
+## 二、项目结构
 
 ```
 shell_agent/
@@ -37,7 +37,7 @@ shell_agent/
 
 ---
 
-# 三、项目功能
+## 三、项目功能
 
 **纯自然语言交互**：无菜单、无数字选择，直接对话式使用  
 **DeepSeek 大模型驱动**：智能生成安全、标准的 Bash 命令  
@@ -64,23 +64,23 @@ shell_agent/
 
 ---
 
-# 四、使用流程
+## 四、使用流程
 
-## 1. 安装系统依赖（Ubuntu）
+### 1. 安装系统依赖（Ubuntu）
 
 ```bash
 sudo apt update
 sudo apt install -y python3 python3-pip python3-venv
 ```
 
-## 2. 创建并进入项目目录
+### 2. 创建并进入项目目录
 
 ```bash
 mkdir -p ~/shell_agent
 cd ~/shell_agent
 ```
 
-## 3. 创建并激活虚拟环境（推荐）
+### 3. 创建并激活虚拟环境（推荐）
 
 ```bash
 python3 -m venv venv
@@ -89,13 +89,13 @@ source venv/bin/activate
 
 激活成功后，终端前面会显示 `(venv)`
 
-## 4. 安装 Python 依赖
+### 4. 安装 Python 依赖
 
 ```bash
-pip install openai python-dotenv
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
-## 5. 配置 .env 环境变量
+### 5. 配置 .env 环境变量
 
 ```bash
 nano .env
@@ -112,7 +112,7 @@ DEEPSEEK_MODEL=deepseek-v4-pro
 保存退出：
 `Ctrl + O` → 回车 → `Ctrl + X`
 
-## 6. 启动项目
+### 6. 启动项目
 
 ```bash
 python3 main.py
@@ -120,32 +120,34 @@ python3 main.py
 
 ---
 
-# 五、使用示例
+## 五、使用示例
 
-## 1. 输入自然语言指令——查看磁盘空间
+### 1. 输入自然语言指令——查看磁盘空间
 
-![演示图片](images/查看磁盘空间.png)
+<img src="images/查看磁盘空间.png" width="400" alt="演示图片">
 
-## 2. 输入自然语言指令——查看进程
+### 2. 输入自然语言指令——查看进程
 
-![演示图片](images/查看进程.png)
+<img src="images/查看进程.png" width="400" alt="演示图片">
 
-## 3. 输入自然语言指令——检查磁盘空间问题
+### 3. 输入自然语言指令——检查磁盘空间问题
 
-![演示图片](images/检查磁盘空间问题.png)
+<img src="images/检查磁盘空间问题.png" width="400" alt="演示图片">
 
-## 4. 输入自然语言指令——检查网络问题
+### 4. 输入自然语言指令——检查网络问题
 
-![演示图片](images/检查网络问题.png)
+<img src="images/检查网络问题.png" width="400" alt="演示图片">
 
-## 5. 查看并清空历史记录
+### 5. 查看并清空历史记录
 
-![演示图片](images/查看、清空历史.png)
+<img src="images/查看、清空历史.png" width="400" alt="演示图片">
 
 ---
 
-# 六、退出虚拟环境
+## 六、退出虚拟环境
 
 ```bash
 deactivate
 ```
+
+---
