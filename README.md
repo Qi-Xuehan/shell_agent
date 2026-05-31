@@ -124,23 +124,24 @@ python3 main.py
 
 ### 1. 输入自然语言指令——查看磁盘空间
 
-<img src="images/查看磁盘空间.png" width="400" alt="演示图片">
+<img src="images/查看磁盘空间.png" width="500" alt="演示图片">
 
 ### 2. 输入自然语言指令——查看进程
 
-<img src="images/查看进程.png" width="400" alt="演示图片">
+<img src="images/查看进程.png" width="500" alt="演示图片">
 
 ### 3. 输入自然语言指令——检查磁盘空间问题
 
-<img src="images/检查磁盘空间问题.png" width="400" alt="演示图片">
+<img src="images/检查磁盘空间问题.png" width="500" alt="演示图片">
 
 ### 4. 输入自然语言指令——检查网络问题
 
-<img src="images/检查网络问题.png" width="400" alt="演示图片">
+<img src="images/检查网络问题1.png" width="500" alt="演示图片">
+<img src="images/检查网络问题2.png" width="500" alt="演示图片">
 
 ### 5. 查看并清空历史记录
 
-<img src="images/查看、清空历史.png" width="400" alt="演示图片">
+<img src="images/查看、清空历史.png" width="500" alt="演示图片">
 
 ---
 
