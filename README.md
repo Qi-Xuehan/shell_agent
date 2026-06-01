@@ -24,9 +24,8 @@ shell_agent/
 │   ├── llm_helper.py   # 大模型调用
 │   ├── code_executor.py # 命令执行器
 │   ├── extract_code.py # 命令提取
-│   └── session_dir.py  # 会话管理
-├── lib/                # 基础功能库
-│   ├── utils.py        # 日志、历史记录
+│   ├── session_dir.py  # 会话管理
+│   ├── history.py        # 日志、历史记录
 │   └── syntax_checker.py # 语法校验
 ├── prompts.py          # 系统提示词
 ├── logs/               # 运行日志

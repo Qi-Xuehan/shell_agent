@@ -3,8 +3,8 @@ from utils.extract_code import extract_shell_command, extract_json_from_llm
 from utils.code_executor import execute_shell_command
 from utils.session_dir import create_session_dir
 from prompts import SYSTEM_PROMPT, DIAGNOSE_PROMPT
-from lib.utils import log_info, save_history, show_history, clear_history
-from lib.syntax_checker import check_bash_syntax
+from utils.history import log_info, save_history, show_history, clear_history
+from utils.syntax_checker import check_bash_syntax
 
 import os
 

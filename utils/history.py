@@ -2,12 +2,10 @@ import os
 import time
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LOG_DIR = os.path.join(BASE_DIR, "logs")
 HISTORY_DIR = os.path.join(BASE_DIR, "history")
-os.makedirs(LOG_DIR, exist_ok=True)
 os.makedirs(HISTORY_DIR, exist_ok=True)
 
-LOG_FILE = os.path.join(LOG_DIR, "agent.log")
+LOG_FILE = os.path.join(HISTORY_DIR, "agent.log")
 HISTORY_FILE = os.path.join(HISTORY_DIR, "cmd_history.txt")
 
 def log_info(msg):
