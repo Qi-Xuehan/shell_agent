@@ -2,7 +2,7 @@ import os
 import time
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-HISTORY_DIR = os.path.join(BASE_DIR, "history")
+HISTORY_DIR = os.path.join(BASE_DIR, "logs")
 os.makedirs(HISTORY_DIR, exist_ok=True)
 
 LOG_FILE = os.path.join(HISTORY_DIR, "agent.log")
