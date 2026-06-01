@@ -167,24 +167,24 @@ deactivate
 
 ### 1. 输入自然语言指令——查看磁盘空间
 
-<img src="images/查看磁盘空间.png" width="500" alt="演示图片">
+![查看磁盘空间](images/查看磁盘空间.png)
 
 ### 2. 输入自然语言指令——查看进程
 
-<img src="images/查看进程.png" width="500" alt="演示图片">
+![查看进程](images/查看进程.png)
 
 ### 3. 输入自然语言指令——检查磁盘空间问题
 
-<img src="images/检查磁盘空间问题.png" width="500" alt="演示图片">
+![检查磁盘空间问题](images/检查磁盘空间问题.png)
 
 ### 4. 输入自然语言指令——检查网络问题
 
-<img src="images/检查网络问题1.png" width="500" alt="演示图片">
-<img src="images/检查网络问题2.png" width="500" alt="演示图片">
+![检查网络问题1](images/检查网络问题1.png)
+![检查网络问题2](images/检查网络问题2.png)
 
 ### 5. 查看并清空历史记录
 
-<img src="images/查看、清空历史.png" width="500" alt="演示图片">
+![查看清空历史](images/查看、清空历史.png)
 
 ---
 
