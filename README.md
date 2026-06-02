@@ -1,4 +1,4 @@
-# Shell Agent 智能命令助手（最终完善版）
+# Shell Agent 智能命令助手
 
 基于 DeepSeek 大模型的 Linux 智能命令助手 | 自然语言交互 | 安全校验 | 自动总结 | 系统诊断
 
