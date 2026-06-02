@@ -9,7 +9,8 @@ from utils.code_executor import execute_shell_command
 from utils.session_dir import create_session_dir
 from prompts import SYSTEM_PROMPT, DIAGNOSE_PROMPT
 from utils.history import log_info, save_history, show_history, clear_history
-from utils.syntax_checker import check_bash_syntax
+from utils.syntax_checker import check_bash_syntax, check_command_risk
+
 import os
 
 class ShellAgent:
@@ -18,32 +19,11 @@ class ShellAgent:
         self.session_dir = create_session_dir()
         self.session_log = os.path.join(self.session_dir, "session.log")
 
-    # 日志写入（自动清洗编码，防止报错）
+    # 日志写入
     def log_to_session(self, content):
         cleaned = content.encode("utf-8", "ignore").decode("utf-8")
         with open(self.session_log, "a", encoding="utf-8") as f:
             f.write(cleaned + "\n")
-
-    # 命令安全风险等级判断
-    def check_command_risk(self, cmd):
-        dangerous = [
-            "rm -rf", "rm -fr", "mkfs", "dd", "shutdown",
-            "reboot", "init 0", "poweroff", "halt"
-        ]
-        warning = [
-            "rm", "chmod", "chown", "useradd", "userdel",
-            "passwd", "kill", "killall", "umount"
-        ]
-
-        for d in dangerous:
-            if d in cmd:
-                return "危险", "❌ 命令包含高危操作，已禁止执行"
-
-        for w in warning:
-            if w in cmd:
-                return "警告", "⚠️ 该命令会修改系统/文件权限，请谨慎确认"
-
-        return "安全", "✅ 命令安全，可正常执行"
 
     # 命令执行结果自动总结
     def summarize_result(self, cmd, output):
@@ -55,7 +35,7 @@ class ShellAgent:
                 {"role": "system", "content": """
 你是Linux运维助手，用简洁中文总结命令执行结果。
 总结包含：执行状态、关键数据、是否异常、简短建议。
-不要格式、不要markdown、纯文字。
+不要格式、不要markdown、纯文字、一定要简洁，不超过200个字符。
 """},
                 {"role": "user", "content": f"命令：{cmd}\n输出：{output[:2000]}"}
             ]
@@ -69,11 +49,13 @@ class ShellAgent:
         try:
             messages = [
                 {"role": "system", "content": """
-你是一个Linux命令解释专家，用简洁中文解释命令，必须包含3点：
-1. 功能
-2. 参数含义
-3. 使用场景
-只返回解释，不要多余内容，不要使用表情符号。
+你是一个Linux命令解释专家，用简洁中文解释命令，必须包含两点：
+1.功能
+2.使用场景
+只返回解释，不要多余内容，不要使用表情符号，尽量简洁。
+格式：
+功能：xxx
+使用场景：xxx
 """},
                 {"role": "user", "content": f"解释命令：{cmd}"}
             ]
@@ -109,7 +91,7 @@ class ShellAgent:
             return
 
         # 普通命令生成
-        print("\n正在生成命令并进行校验...")
+        print("\n正在生成命令...")
         messages = [
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": query}
@@ -128,38 +110,33 @@ class ShellAgent:
             log_info("未能解析到有效命令")
             return
 
-        # 命令语法校验
+        # 语法校验
         is_valid, msg = check_bash_syntax(cmd)
-        print("========================")
-        print(f"语法校验：{msg}")
         log_info(f"命令校验结果：{msg}，命令内容：{cmd}")
+        self.log_to_session(f"命令非法：{msg}")
 
         if not is_valid:
             print("命令非法，已禁止执行")
-            self.log_to_session(f"命令非法：{msg}")
             log_info(f"命令非法，已阻止执行：{cmd}")
             return
 
-        # 风险等级判断
-        risk_level, risk_msg = self.check_command_risk(cmd)
-        print(f"风险等级：{risk_level} | {risk_msg}")
+        # 风险判断
+        risk_level, risk_msg = check_command_risk(cmd)
         self.log_to_session(f"风险等级：{risk_level} | 命令：{cmd}")
 
-        # 危险命令直接拦截
         if risk_level == "危险":
             print("❌ 危险命令，终止执行！")
             log_info(f"已拦截危险命令：{cmd}")
             return
 
         # 自动生成中文解释
-        print("详细说明：")
+        print(f"\n最终可执行命令：{cmd}")
+        print("命令说明：")
         explain = self.get_command_explanation(cmd)
         print(explain)
-        print("========================")
-        print(f"\n最终可执行命令：{cmd}")
         self.log_to_session(f"合法命令：{cmd}\n说明：{explain}")
 
-        confirm = input("是否执行？(y/n) ").lower()
+        confirm = input("\n是否执行？(y/n) ").lower()
         if confirm != "y":
             print("已取消执行")
             self.log_to_session("用户取消执行")
@@ -175,11 +152,11 @@ class ShellAgent:
             self.log_to_session("执行成功")
             log_info(f"命令执行成功：{cmd}")
 
-
             # 自动总结输出
-            print("\n===== 智能总结 =====")
+            print("\n======== 智能总结 ========")
             summary = self.summarize_result(cmd, result["stdout"])
             print(summary)
+            print("==========================")
             self.log_to_session(f"执行总结：{summary}")
 
         else:
